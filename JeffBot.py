@@ -32,27 +32,23 @@ async def announcements(ctx):
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
 async def post(ctx, platform, version: float, beta, betaversion):
-    if (platform.lower() == "ios"):  
-        role = 291627102627823617
-    elif (platform.lower() == "macos"):
-        role =  291627249768202240
-    elif (platform.lower() == "tvos"):
-        role = 291627141982978059
-    elif (platform.lower() == "watchos"):
-        role = 291627182365605890
+
+    platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890}
+    transformDict = {"db":"Developer Beta", "pb":"Public Beta"}
+
+    if platform.lower() in platformDict:
+        role = platformDict[platform.lower()]
+
     roles = discord.utils.get(ctx.message.author.server.roles, id=str(role))
-    if(beta.lower() == "db"):
-        betas = "Developer Beta"
-    if(beta.lower() == "pb"):
-        betas = "Public Beta"
-    if(platform == "ios"):
-        platform = "iOS"
-    if(platform == "tvos"):
-        platform = "tvOS"
-    if(platform == "macos"):
-        platform = "macOS"
-    if(platform == "watchos"):
-        platform = "watchOS"
+
+    if beta.lower() in transformDict:
+        betas = transformDict[beta.lower()]
+
+    # Capitalise "OS"
+
+    platform = platform.replace("o", "O")
+    platform = platform.replace("s", "S")
+
     await bot.edit_role(ctx.message.author.server, roles, mentionable = True)
     await bot.send_message(discord.Object(id="538268186198409227"), "{} {} {} {} {} has been released!".format(roles.mention, platform, str(version), betas, str(betaversion)))
     await bot.edit_role(ctx.message.author.server, roles, mentionable = False)
