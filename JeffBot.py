@@ -2,6 +2,9 @@ from discord.ext import commands
 import discord, asyncio, logging, json
 bot = commands.Bot(command_prefix="!")
 
+# Role ID Dictionary
+platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890}
+
 @bot.event
 async def on_ready():
     print("Ready to go!")
@@ -67,20 +70,24 @@ async def full(ctx, platform, version: float):
 
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
-async def update(ctx, version: float):
-    ios = discord.utils.get(ctx.message.author.server.roles, id=str(291627102627823617))
-    macos = discord.utils.get(ctx.message.author.server.roles, id=str(291627249768202240))
-    tvos = discord.utils.get(ctx.message.author.server.roles, id=str(291627141982978059))
-    watchos = discord.utils.get(ctx.message.author.server.roles, id=str(291627182365605890))
-    await bot.edit_role(ctx.message.author.server, ios, mentionable = True)
-    await bot.edit_role(ctx.message.author.server, macos, mentionable = True)
-    await bot.edit_role(ctx.message.author.server, tvos, mentionable = True)
-    await bot.edit_role(ctx.message.author.server, watchos, mentionable = True)
-    await bot.send_message(discord.Object(id="538268186198409227"), "{} {} {} {}, a new update has been released!".format(ios.mention, macos.mention, tvos.mention, watchos.mention))
-    await bot.edit_role(ctx.message.author.server, ios, mentionable = False)
-    await bot.edit_role(ctx.message.author.server, macos, mentionable = False)
-    await bot.edit_role(ctx.message.author.server, tvos, mentionable = False)
-    await bot.edit_role(ctx.message.author.server, watchos, mentionable = False)
+async def update(ctx):
+
+    updateString = ""
+
+    for platform in platformDict:
+        role = discord.utils.get(ctx.message.author.server.roles, id= str(platformDict[platform]))
+
+        await bot.edit_role(ctx.message.author.server, role, mentionable = True)
+
+        updateString = updateString + " " + role.mention
+
+    updateString = updateString + ", a new update has been released!"
+    await bot.send_message(discord.Object(id="538268186198409227"), updateString)
+
+    for platform in platformDict:
+        role = discord.utils.get(ctx.message.author.server.roles, id= str(platformDict[platform]))
+
+        await bot.edit_role(ctx.message.author.server, role, mentionable = False)
 
 async def deleteWait(msg):
     await asyncio.sleep(6)
