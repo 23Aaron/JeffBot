@@ -45,14 +45,14 @@ async def post(ctx, platform, version: float, beta, betaversion):
 
     if beta.lower() in transformDict:
         betas = transformDict[beta.lower()]
-        
+
     platform = capitaliseOS(platform)
 
     await bot.edit_role(ctx.message.author.server, roles, mentionable = True)
     await bot.send_message(discord.Object(id="538268186198409227"), "{} {} {} {} {} has been released!".format(roles.mention, platform, str(version), betas, str(betaversion)))
     await bot.edit_role(ctx.message.author.server, roles, mentionable = False)
 
-@@bot.command(pass_context=True)
+@bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
 async def full(ctx, platform, version: float):
 
@@ -93,13 +93,13 @@ async def deleteWait(msg):
     await asyncio.sleep(6)
     await bot.delete_message(msg) 
 
-async def getRoleID(platform):
+def getRoleID(platform):
     platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890}
     
     if platform.lower() in platformDict:
         return platformDict[platform.lower()]
 
-async def capitaliseOS(msg):
+def capitaliseOS(msg):
     msg = msg.replace("o", "O")
     msg = msg.replace("s", "S")
 
