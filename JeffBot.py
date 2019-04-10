@@ -34,7 +34,7 @@ async def announcements(ctx):
 
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
-async def post(ctx, platform, version: float, beta, betaversion):
+async def post(ctx, platform, version, beta, betaversion: float):
 
     transformDict = {"db":"Developer Beta", "pb":"Public Beta"}
 
@@ -54,7 +54,7 @@ async def post(ctx, platform, version: float, beta, betaversion):
 
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
-async def full(ctx, platform, version: float):
+async def full(ctx, platform, version):
 
 
     platform = platform.lower()
