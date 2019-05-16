@@ -14,4 +14,4 @@ This bot does a few things:
 - A varied set of commands for informing users about new iOS releases, beta or otherwise
 - Adding roles to users upon running a command
 
-I hope this code inspires you or helps you solve any issues you may be having! Contact me on discord if you have any questions: @23 Aaron#7547
+I hope this code inspires you or helps you solve any issues you may be having! Contact me on discord if you have any questions: @23 Aaron#0023
