@@ -4,7 +4,7 @@ This bot is named JeffBot after Jeff Williams, Apple's current COO. The bot was 
 
 This bot requires: 
 
-- discord.py module version 1.0 
+- discord.py module version 1.0 or higher
 - Python 3.5.3 or higher
 
 
