@@ -3,7 +3,7 @@ import discord, asyncio, logging, json
 bot = commands.Bot(command_prefix="!")
 
 # Role ID Dictionary
-platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890}
+platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817}
 
 @bot.event
 async def on_ready():
@@ -33,8 +33,8 @@ async def announcements(ctx):
     await deleteWait(msg)
 
 @bot.command(pass_context=True)
-@commands.has_permissions(administrator=True)
-async def post(ctx, platform, version, beta, betaversion):
+@commands.has_permissions(manage_messages=True)
+async def beta(ctx, platform, version, beta, betaversion):
 
     transformDict = {"db":"Developer Beta", "pb":"Public Beta"}
 
@@ -57,8 +57,8 @@ async def post(ctx, platform, version, beta, betaversion):
     await roleObj.edit(mentionable = False)
 
 @bot.command(pass_context=True)
-@commands.has_permissions(administrator=True)
-async def full(ctx, platform, version):
+@commands.has_permissions(manage_messages=True)
+async def update(ctx, platform, version):
 
     guild = ctx.guild
 
@@ -76,42 +76,12 @@ async def full(ctx, platform, version):
     await channel.send("{} {} {} has been released!".format(roleObj.mention, platform, str(version)))
     await roleObj.edit(mentionable = False)
 
-@bot.command(pass_context=True)
-@commands.has_permissions(administrator=True)
-async def update(ctx):
-
-    updateString = ""
-
-    for platform in platformDict:
-
-        platform = platform.lower()
-
-        role = getRoleID(platform)
-
-        guild = ctx.guild
-
-        roleObj = guild.get_role(role)
-
-        await roleObj.edit(mentionable = True)
-
-        channel = guild.get_channel(538268186198409227)
-
-        updateString = updateString + " " + roleObj.mention
-
-    updateString = updateString + ", a new update has been released!"
-    await  channel.send(updateString)
-
-    for platform in platformDict:
-        role = discord.utils.get(ctx.message.author.guild.roles)
-
-        await roleObj.edit(mentionable = False)
-
 async def deleteWait(msg):
     await asyncio.sleep(6)
     await msg.delete 
 
 def getRoleID(platform):
-    platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890}
+    platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817}
     
     if platform.lower() in platformDict:
         return platformDict[platform.lower()]
@@ -119,6 +89,7 @@ def getRoleID(platform):
 def capitaliseOS(msg):
     msg = msg.replace("o", "O")
     msg = msg.replace("s", "S")
+    msg = msg.replace("ipad", "iPad")
 
     return msg
 
