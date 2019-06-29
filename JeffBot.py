@@ -3,7 +3,13 @@ import discord, asyncio, logging, json
 bot = commands.Bot(command_prefix="!")
 
 # Role ID Dictionary
-platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817}
+platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817, "xcode":590944120252661770}
+
+@bot.command(pass_context=True)
+@commands.has_permissions(administrator=True)
+async def setgame(ctx):
+    mygame = discord.Game(name="Firing Jony Ive...")
+    await bot.change_presence(activity=mygame)
 
 @bot.event
 async def on_ready():
@@ -81,15 +87,15 @@ async def deleteWait(msg):
     await msg.delete 
 
 def getRoleID(platform):
-    platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817}
+    platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817, "xcode":590944120252661770}
     
     if platform.lower() in platformDict:
         return platformDict[platform.lower()]
 
 def capitaliseOS(msg):
-    msg = msg.replace("o", "O")
-    msg = msg.replace("s", "S")
+    msg = msg.replace("os", "OS")
     msg = msg.replace("ipad", "iPad")
+    msg = msg.replace("xcode", "Xcode")
 
     return msg
 
