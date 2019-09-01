@@ -8,8 +8,25 @@ platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
 async def setgame(ctx):
-    mygame = discord.Game(name="Firing Jony Ive...")
+    mygame = discord.Game(name="XCode - watchOS 7")
     await bot.change_presence(activity=mygame)
+
+@commands.command()
+async def poll(self, ctx, *options):
+
+    if len(options) > 10:
+        await ctx.channel.send("``Too many arguments. 10 arguments only.``")
+        return
+
+    output = ""
+
+    for i, val in enumerate(options):
+        output += "{}\u20e3: \"{}\"\n".format(i, val.strip("\""))
+
+    message = await ctx.channel.send(output)
+
+    for i, val in enumerate(options):
+        await message.add_reaction('{}\u20e3'.format(i))
 
 @bot.event
 async def on_ready():
