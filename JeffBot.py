@@ -8,7 +8,7 @@ platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
 async def setgame(ctx):
-    mygame = discord.Game(name="XCode - watchOS 7")
+    mygame = discord.Game(name="Xcode - watchOS 7")
     await bot.change_presence(activity=mygame)
 
 @commands.command()
