@@ -3,12 +3,12 @@ import discord, asyncio, logging, json
 bot = commands.Bot(command_prefix="!")
 
 # Role ID Dictionary
-platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817, "xcode":590944120252661770}
+platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817, "xcode":590944120252661770, "audioos":776720181723529236}
 
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
 async def setgame(ctx):
-    mygame = discord.Game(name="Xcode - watchOS 7")
+    mygame = discord.Game(name="Xcode - watchOS 8")
     await bot.change_presence(activity=mygame)
 
 @commands.command()
@@ -34,11 +34,7 @@ async def on_ready():
 
 @bot.command(pass_context=True)
 async def hello(ctx):
-    await ctx.send("Hello!")
-
-@bot.command(pass_context=True)
-async def moo(ctx):
-    await ctx.send("Moo big gey.")  
+    await ctx.send("Hello!") 
 
 @bot.command(pass_context=True)
 async def announcements(ctx):
@@ -76,7 +72,7 @@ async def beta(ctx, platform, version, beta, betaversion):
     channel = guild.get_channel(538268186198409227)
 
     await roleObj.edit(mentionable = True)
-    await channel.send("{} {} {} {} {} has been released!".format(roleObj.mention, platform, str(version), betas, str(betaversion)))
+    await channel.send("{} {} {} {} {} is now available!".format(roleObj.mention, platform, str(version), betas, str(betaversion)))
     await roleObj.edit(mentionable = False)
 
 @bot.command(pass_context=True)
@@ -96,7 +92,7 @@ async def update(ctx, platform, version):
     channel = guild.get_channel(538268186198409227)
 
     await roleObj.edit(mentionable = True)
-    await channel.send("{} {} {} has been released!".format(roleObj.mention, platform, str(version)))
+    await channel.send("{} {} {} is now available!".format(roleObj.mention, platform, str(version)))
     await roleObj.edit(mentionable = False)
 
 async def deleteWait(msg):
@@ -104,7 +100,7 @@ async def deleteWait(msg):
     await msg.delete 
 
 def getRoleID(platform):
-    platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817, "xcode":590944120252661770}
+    platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817, "xcode":590944120252661770, "audioos":776720181723529236}
     
     if platform.lower() in platformDict:
         return platformDict[platform.lower()]
@@ -116,4 +112,41 @@ def capitaliseOS(msg):
 
     return msg
 
-bot.run("YOUR_TOKEN_HERE")    
+@bot.command(pass_context=True)
+@commands.has_permissions(manage_messages=True)
+async def rc(ctx, platform, version):
+
+    guild = ctx.guild
+
+    platform = platform.lower()
+
+    role = getRoleID(platform)
+    
+    platform = capitaliseOS(platform)
+
+    roleObj = guild.get_role(role)
+
+    channel = guild.get_channel(538268186198409227)
+
+    await roleObj.edit(mentionable = True)
+    await channel.send("{} {} {} Release Client is now available!".format(roleObj.mention, platform, str(version)))
+    await roleObj.edit(mentionable = False)
+
+async def deleteWait(msg):
+    await asyncio.sleep(6)
+    await msg.delete 
+
+def getRoleID(platform):
+    platformDict = {"ios":291627102627823617, "macos":291627249768202240, "tvos":291627141982978059, "watchos":291627182365605890, "ipados":585506894240546817, "xcode":590944120252661770, "audioos":776720181723529236}
+    
+    if platform.lower() in platformDict:
+        return platformDict[platform.lower()]
+
+def capitaliseOS(msg):
+    msg = msg.replace("os", "OS")
+    msg = msg.replace("ipad", "iPad")
+    msg = msg.replace("xcode", "Xcode")
+
+    return msg
+
+bot.run("INSERT_TOKEN_HERE")    
